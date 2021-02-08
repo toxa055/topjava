@@ -17,7 +17,7 @@
     <p>
         DateTime:
         <input type="datetime-local" name="dateTime"
-               value="${not empty meals.dateTime ? meals.dateTime : ""}"
+               value="${meals.dateTime}"
                placeholder="YYYY-MM-DDTHH:mm"/>
     </p>
     <p>

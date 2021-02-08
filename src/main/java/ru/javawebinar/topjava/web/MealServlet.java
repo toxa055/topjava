@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.storage.MealStorage;
 import ru.javawebinar.topjava.storage.MapMealStorage;
-import ru.javawebinar.topjava.util.IdUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,20 +19,26 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
-    private final MealStorage storage = new MapMealStorage();
+    private MealStorage storage;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        storage = new MapMealStorage();
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
         boolean notExist = id.isEmpty();
-        Meal meal = new Meal(notExist ? IdUtil.getId() : Long.parseLong(id),
+        Meal meal = new Meal(notExist ? 0 : Long.parseLong(id),
                 LocalDateTime.parse(request.getParameter("dateTime")), request.getParameter("description"),
                 Integer.parseInt(request.getParameter("calories")));
         if (notExist) {
             log.debug("add new meal");
-            storage.create(meal, 0);
+            storage.create(meal);
         } else {
-            log.debug("update meal with id " + meal.getId());
+            log.debug("update meal with id {}", meal.getId());
             storage.update(meal);
         }
         log.debug("redirect to meals");
@@ -57,7 +63,7 @@ public class MealServlet extends HttpServlet {
                 response.sendRedirect("meals");
                 return;
             case "update":
-                log.debug("choose update meal with id " + id);
+                log.debug("choose update meal with id {}", id);
                 meal = storage.get(Long.parseLong(id));
                 break;
             case "add":
