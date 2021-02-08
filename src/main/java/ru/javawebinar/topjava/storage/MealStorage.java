@@ -5,9 +5,9 @@ import ru.javawebinar.topjava.model.Meal;
 import java.util.List;
 
 public interface MealStorage {
-    void save(Meal meal);
+    Meal create(Meal meal, long id);
 
-    void update(Meal meal);
+    Meal update(Meal meal);
 
     Meal get(long id);
 

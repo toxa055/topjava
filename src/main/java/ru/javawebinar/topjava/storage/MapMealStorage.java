@@ -10,18 +10,26 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MealStorageMap implements MealStorage {
-    private final Map<Long, Meal> meals = new ConcurrentHashMap<>(MealsUtil.MEALS.stream()
+public class MapMealStorage implements MealStorage {
+    private final Map<Long, Meal> meals = new ConcurrentHashMap<>(MealsUtil.meals.stream()
             .collect(Collectors.toMap(Meal::getId, Function.identity())));
 
     @Override
-    public void save(Meal meal) {
-        meals.put(meal.getId(), meal);
+    public Meal create(Meal meal, long id) {
+        if (id == 0) {
+            meals.put(meal.getId(), meal);
+            return meal;
+        }
+        return null;
     }
 
     @Override
-    public void update(Meal meal) {
-        meals.put(meal.getId(), meal);
+    public Meal update(Meal meal) {
+        if (meals.containsKey(meal.getId())) {
+            meals.put(meal.getId(), meal);
+            return meal;
+        }
+        return null;
     }
 
     @Override
