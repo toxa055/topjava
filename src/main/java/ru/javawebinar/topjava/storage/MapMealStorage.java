@@ -33,12 +33,12 @@ public class MapMealStorage implements MealStorage {
     }
 
     @Override
-    public Meal get(Integer id) {
+    public Meal get(int id) {
         return meals.get(id);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(int id) {
         meals.remove(id);
     }
 
