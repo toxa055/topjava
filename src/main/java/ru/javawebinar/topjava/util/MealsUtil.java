@@ -15,19 +15,19 @@ import java.util.stream.Collectors;
 public class MealsUtil {
     public final static int CALORIES_PER_DAY_LIMIT = 2100;
     public final static List<Meal> meals = Arrays.asList(
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 20, 21, 7), "Ужин", 300),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 20, 7, 30), "Первый завтрак", 1200),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 21, 20, 10), "Ужин2", 800),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 21, 22, 30), "Ужин3", 900),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 21, 21, 20), "Ужин1", 850),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100),
-            new Meal(0, LocalDateTime.of(2020, Month.JANUARY, 20, 9, 0), "Второй завтрак", 1100)
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 20, 21, 7), "Ужин", 300),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 20, 7, 30), "Первый завтрак", 1200),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 21, 20, 10), "Ужин2", 800),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 21, 22, 30), "Ужин3", 900),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 21, 21, 20), "Ужин1", 850),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100),
+            new Meal(null, LocalDateTime.of(2020, Month.JANUARY, 20, 9, 0), "Второй завтрак", 1100)
     );
 
     public static void main(String[] args) {

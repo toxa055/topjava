@@ -30,8 +30,8 @@ public class MealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
-        boolean notExist = id.isEmpty();
-        Meal meal = new Meal(notExist ? 0 : Long.parseLong(id),
+        boolean notExist = id == null || id.trim().isEmpty();
+        Meal meal = new Meal(notExist ? null : Integer.parseInt(id),
                 LocalDateTime.parse(request.getParameter("dateTime")), request.getParameter("description"),
                 Integer.parseInt(request.getParameter("calories")));
         if (notExist) {
@@ -59,12 +59,12 @@ public class MealServlet extends HttpServlet {
         switch (action) {
             case "delete":
                 log.debug("delete meal and redirect to meals");
-                storage.delete(Long.parseLong(id));
+                storage.delete(Integer.parseInt(id));
                 response.sendRedirect("meals");
                 return;
             case "update":
                 log.debug("choose update meal with id {}", id);
-                meal = storage.get(Long.parseLong(id));
+                meal = storage.get(Integer.parseInt(id));
                 break;
             case "add":
                 log.debug("choose add new meal");
@@ -74,7 +74,7 @@ public class MealServlet extends HttpServlet {
                 response.sendRedirect("meals");
                 return;
         }
-        request.setAttribute("meals", meal);
+        request.setAttribute("meal", meal);
         request.getRequestDispatcher("/edit.jsp").forward(request, response);
     }
 }

@@ -9,9 +9,9 @@ public interface MealStorage {
 
     Meal update(Meal meal);
 
-    Meal get(long id);
+    Meal get(Integer id);
 
-    void delete(long id);
+    void delete(Integer id);
 
     List<Meal> getAll();
 }

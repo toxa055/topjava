@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MapMealStorage implements MealStorage {
-    private final static AtomicLong count = new AtomicLong(0);
-    private final Map<Long, Meal> meals = new ConcurrentHashMap<>();
+    private final AtomicInteger count = new AtomicInteger(0);
+    private final Map<Integer, Meal> meals = new ConcurrentHashMap<>();
 
     {
         MealsUtil.meals.forEach(this::create);
@@ -19,7 +19,7 @@ public class MapMealStorage implements MealStorage {
 
     @Override
     public Meal create(Meal meal) {
-        if (meal.getId() == 0) {
+        if (meal.getId() == null) {
             meal.setId(count.incrementAndGet());
             meals.put(meal.getId(), meal);
             return meal;
@@ -33,12 +33,12 @@ public class MapMealStorage implements MealStorage {
     }
 
     @Override
-    public Meal get(long id) {
+    public Meal get(Integer id) {
         return meals.get(id);
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Integer id) {
         meals.remove(id);
     }
 
