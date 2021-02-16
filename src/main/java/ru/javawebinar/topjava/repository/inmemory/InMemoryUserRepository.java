@@ -3,7 +3,7 @@ package ru.javawebinar.topjava.repository.inmemory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import ru.javawebinar.topjava.model.AbstractNamedEntity;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
@@ -17,6 +17,11 @@ public class InMemoryUserRepository implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepository.class);
     private final Map<Integer, User> users = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
+
+    {
+        save(new User(null, "admin", "admin@mail.ru", "password", Role.ADMIN));
+        save(new User(null, "user1", "user1@mail.ru", "password", Role.USER));
+    }
 
     @Override
     public boolean delete(int id) {
@@ -33,7 +38,7 @@ public class InMemoryUserRepository implements UserRepository {
             return user;
         }
         log.info("update {}", user);
-        return users.computeIfPresent(user.getId(), (id, oldUser) -> oldUser);
+        return users.computeIfPresent(user.getId(), (id, oldUser) -> user);
     }
 
     @Override
@@ -46,20 +51,17 @@ public class InMemoryUserRepository implements UserRepository {
     public List<User> getAll() {
         log.info("getAll");
         return users.values().stream()
-                .sorted(Comparator.comparing(AbstractNamedEntity::getName))
+                .sorted(Comparator.comparing(User::getName).
+                        thenComparing(User::getEmail))
                 .collect(Collectors.toList());
     }
 
     @Override
     public User getByEmail(String email) {
         log.info("getByEmail {}", email);
-        try {
-            return users.values().stream()
-                    .filter(u -> u.getEmail().equals(email))
-                    .findFirst()
-                    .get();
-        } catch (NoSuchElementException e) {
-            return null;
-        }
+        return users.values().stream()
+                .filter(u -> (u.getEmail() != null) && (u.getEmail().equals(email)))
+                .findFirst()
+                .orElse(null);
     }
 }

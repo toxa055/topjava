@@ -6,11 +6,10 @@ import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
-import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
-import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 
 
 @Service
@@ -24,7 +23,6 @@ public class MealService {
 
     public Meal create(Meal meal, int userId) {
         log.info("create {}", meal);
-        checkNew(meal);
         return repository.save(meal, userId);
     }
 
@@ -43,9 +41,13 @@ public class MealService {
         return repository.getAll(userId);
     }
 
-    public void update(Meal meal, int id, int userId) {
-        log.info("update {} with id={}", meal, id);
-        assureIdConsistent(meal, id);
+    public Collection<Meal> getAllFiltered(int userId, LocalDate startDate, LocalDate endDate) {
+        log.info("getAllFiltered");
+        return repository.getAllFiltered(userId, startDate, endDate);
+    }
+
+    public void update(Meal meal, int userId) {
+        log.info("update {} with", meal);
         checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 }

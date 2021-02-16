@@ -21,10 +21,10 @@ public class SpringMain {
             User user = new User(null, "userName", "email@mail.ru", "password", Role.ADMIN);
             adminUserController.create(user);
             MealRestController mealRestController = appCtx.getBean(MealRestController.class);
-            mealRestController.create(new Meal(1, LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин111", 500), 1);
-            mealRestController.create(new Meal(1, LocalDateTime.of(2020, Month.JANUARY, 30, 21, 0), "Ужин222", 500), 1);
-            mealRestController.getAll(1).forEach(System.out::println);
-            System.out.println(mealRestController.getAll(1).size());
+            mealRestController.create(new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин111", 500));
+            mealRestController.create(new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 21, 0), "Ужин222", 500));
+            mealRestController.getAll().forEach(System.out::println);
+            System.out.println(mealRestController.getAll().size());
         }
     }
 }
