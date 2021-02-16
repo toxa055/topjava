@@ -6,7 +6,7 @@ public class SecurityUtil {
     private static int authUserId;
 
     public static int authUserId() {
-        return 2;
+        return authUserId;
     }
 
     public static void setAuthUserId(int userId) {

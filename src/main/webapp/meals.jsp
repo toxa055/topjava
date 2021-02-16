@@ -21,30 +21,30 @@
     <h3><a href="index.html">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
-    <form method="post" action="meals">
+    <form method="get" action="meals">
         <table>
             <tr>
                 <td>
                     Start date (including):
-                    <input type="date" value="" name="startDate">
+                    <input type="date" value="${param.get("startDate")}" name="startDate">
                 </td>
                 <td>
                     Start time (including):
-                    <input type="time" value="" name="startTime">
+                    <input type="time" value="${param.get("startTime")}" name="startTime">
                 </td>
             </tr>
             <tr>
                 <td>
                     End date (including):
-                    <input type="date" value="" name="endDate">
+                    <input type="date" value="${param.get("endDate")}" name="endDate">
                 </td>
                 <td>
                     End time (excluding):
-                    <input type="time" value="" name="endTime">
+                    <input type="time" value="${param.get("endTime")}" name="endTime">
                 </td>
             </tr>
         </table>
-        <button type="submit">Filter</button>
+        <button type="submit" name="action" value="filter">Filter</button>
     </form>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
@@ -54,8 +54,7 @@
             <th>Date</th>
             <th>Description</th>
             <th>Calories</th>
-            <th></th>
-            <th></th>
+            <th colspan="2">Action</th>
         </tr>
         </thead>
         <c:forEach items="${meals}" var="meal">
