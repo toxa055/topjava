@@ -14,12 +14,13 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static ru.javawebinar.topjava.MealTestData.*;
+import static ru.javawebinar.topjava.UserTestData.USER_ID;
+import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 
 
 @ContextConfiguration({
@@ -41,8 +42,8 @@ public class MealServiceTest {
 
     @Test
     public void get() {
-        Meal meal = mealService.get(USER_MEAL_1.getId(), USER_ID);
-        assertMatch(meal, USER_MEAL_1);
+        Meal meal = mealService.get(userMeal1.getId(), USER_ID);
+        assertMatch(meal, userMeal1);
     }
 
     @Test
@@ -52,12 +53,12 @@ public class MealServiceTest {
 
     @Test
     public void getByAnotherUser() {
-        assertThrows(NotFoundException.class, () -> mealService.get(USER_MEAL_5.getId(), ADMIN_ID));
+        assertThrows(NotFoundException.class, () -> mealService.get(userMeal5.getId(), ADMIN_ID));
     }
 
     @Test
     public void delete() {
-        int id = USER_MEAL_1.getId();
+        int id = userMeal1.getId();
         mealService.delete(id, USER_ID);
         assertThrows(NotFoundException.class, () -> mealService.get(id, USER_ID));
     }
@@ -69,15 +70,12 @@ public class MealServiceTest {
 
     @Test
     public void deletedByAnotherUser() {
-        assertThrows(NotFoundException.class, () -> mealService.delete(ADMIN_MEAL_1.getId(), USER_ID));
+        assertThrows(NotFoundException.class, () -> mealService.delete(adminMeal1.getId(), USER_ID));
     }
 
     @Test
     public void duplicateDateTimeCreate() {
-        assertThrows(DataAccessException.class, () ->
-                mealService.create(new Meal(LocalDateTime.of(
-                        2020, Month.JANUARY, 31, 20, 0), "Дубликат", 410),
-                        USER_ID));
+        assertThrows(DataAccessException.class, () -> mealService.create(new Meal(userMeal4.getDateTime(), "Дубликат", 410), USER_ID));
     }
 
     @Test
@@ -86,7 +84,7 @@ public class MealServiceTest {
                 LocalDate.of(2021, Month.JANUARY, 30),
                 LocalDate.of(2021, Month.JANUARY, 31),
                 ADMIN_ID);
-        assertMatch(all, ADMIN_MEAL_8, ADMIN_MEAL_7, ADMIN_MEAL_6, ADMIN_MEAL_5, ADMIN_MEAL_4, ADMIN_MEAL_3, ADMIN_MEAL_2);
+        assertMatch(all, adminMeal8, adminMeal7, adminMeal6, adminMeal5, adminMeal4, adminMeal3, adminMeal2);
     }
 
     @Test
@@ -95,7 +93,7 @@ public class MealServiceTest {
                 null,
                 LocalDate.of(2021, Month.JANUARY, 30),
                 ADMIN_ID);
-        assertMatch(all, ADMIN_MEAL_4, ADMIN_MEAL_3, ADMIN_MEAL_2, ADMIN_MEAL_1);
+        assertMatch(all, adminMeal4, adminMeal3, adminMeal2, adminMeal1);
     }
 
     @Test
@@ -104,13 +102,13 @@ public class MealServiceTest {
                 LocalDate.of(2021, Month.JANUARY, 31),
                 null,
                 ADMIN_ID);
-        assertMatch(all, ADMIN_MEAL_9, ADMIN_MEAL_8, ADMIN_MEAL_7, ADMIN_MEAL_6, ADMIN_MEAL_5);
+        assertMatch(all, adminMeal9, adminMeal8, adminMeal7, adminMeal6, adminMeal5);
     }
 
     @Test
     public void getAll() {
         List<Meal> all = mealService.getAll(USER_ID);
-        assertMatch(all, USER_MEAL_7, USER_MEAL_6, USER_MEAL_5, USER_MEAL_4, USER_MEAL_3, USER_MEAL_2, USER_MEAL_1);
+        assertMatch(all, userMeal7, userMeal6, userMeal5, userMeal4, userMeal3, userMeal2, userMeal1);
     }
 
     @Test
