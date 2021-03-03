@@ -1,9 +1,11 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.ClassRule;
+import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExternalResource;
+import org.junit.rules.Stopwatch;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +15,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.javawebinar.topjava.TestLogger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.Month;
-import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -35,30 +35,26 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
-    public static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+    private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+    private static final StringBuilder timePassingTestsBuilder = new StringBuilder("Tests results: ").append("\n");
+
+    @Rule
+    public final TestRule timePassingTestRule = new Stopwatch() {
+        @Override
+        protected void finished(long nanos, Description description) {
+            String result = description + " - " + TimeUnit.NANOSECONDS.toMillis(nanos);
+            timePassingTestsBuilder.append(result).append("\n");
+            log.debug(result);
+        }
+    };
 
     @Autowired
     private MealService service;
 
-    @ClassRule
-    public static ExternalResource externalResource = new ExternalResource() {
-        LocalTime startTime;
-
-        @Override
-        protected void before() throws Throwable {
-            startTime = LocalTime.now();
-        }
-
-        @Override
-        protected void after() {
-            LocalTime endTime = LocalTime.now();
-            log.debug("Time of passing " + MealServiceTest.class.getName() + " is " +
-                    ChronoUnit.MILLIS.between(startTime, endTime) + " milliseconds");
-        }
-    };
-
-    @Rule
-    public TestLogger testLogger = new TestLogger();
+    @AfterClass
+    public static void logTimePassingTests() {
+        log.debug(timePassingTestsBuilder.toString());
+    }
 
     @Test
     public void delete() {
