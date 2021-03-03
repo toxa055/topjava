@@ -42,9 +42,10 @@ public class MealServiceTest {
     public final TestRule timePassingTestRule = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            String result = description + " - " + TimeUnit.NANOSECONDS.toMillis(nanos);
-            timePassingTestsBuilder.append(result).append("\n");
-            log.debug(result);
+            String methodName = description.getMethodName();
+            long millis = TimeUnit.NANOSECONDS.toMillis(nanos);
+            timePassingTestsBuilder.append(String.format("%-25s %d %s\n", methodName, millis, "ms"));
+            log.debug("{} - {} ms", methodName, millis);
         }
     };
 
