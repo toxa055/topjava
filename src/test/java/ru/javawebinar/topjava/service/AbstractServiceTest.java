@@ -2,7 +2,6 @@ package ru.javawebinar.topjava.service;
 
 import org.junit.AfterClass;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -29,16 +28,6 @@ public abstract class AbstractServiceTest {
     private static final Logger log = getLogger("result");
     private static final StringBuilder results = new StringBuilder();
 
-    @AfterClass
-    public static void printResult() {
-        log.info("\n---------------------------------" +
-                "\nTest                 Duration, ms" +
-                "\n---------------------------------" +
-                results +
-                "\n---------------------------------");
-        results.setLength(0);
-    }
-
     @Rule
     public final Stopwatch stopwatch = new Stopwatch() {
         @Override
@@ -49,21 +38,13 @@ public abstract class AbstractServiceTest {
         }
     };
 
-    @Test
-    abstract void delete();
-
-    @Test
-    abstract void create();
-
-    @Test
-    abstract void get();
-
-    @Test
-    abstract void getNotFound();
-
-    @Test
-    abstract void update();
-
-    @Test
-    abstract void getAll();
+    @AfterClass
+    public static void printResult() {
+        log.info("\n---------------------------------" +
+                "\nTest                 Duration, ms" +
+                "\n---------------------------------" +
+                results +
+                "\n---------------------------------");
+        results.setLength(0);
+    }
 }

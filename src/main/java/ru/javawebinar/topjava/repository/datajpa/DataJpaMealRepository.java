@@ -1,10 +1,12 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -19,9 +21,13 @@ public class DataJpaMealRepository implements MealRepository {
     }
 
     @Override
+    @Transactional
     public Meal save(Meal meal, int userId) {
-        meal.setUser(crudUserRepository.getOne(userId));
-        return (meal.isNew() || get(meal.id(), userId) != null) ? crudRepository.save(meal) : null;
+        if ((meal.isNew()) || (get(meal.id(), userId) != null)) {
+            meal.setUser(crudUserRepository.getOne(userId));
+            return crudRepository.save(meal);
+        }
+        return null;
     }
 
     @Override
@@ -31,20 +37,18 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        return crudRepository.getByIdAndUserId(id, userId).orElse(null);
+        return crudRepository.get(id, userId);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudRepository.findByUserIdOrderByDateTimeDesc(userId).orElse(null);
+        var meals = crudRepository.getAll(userId);
+        return meals == null ? Collections.emptyList() : meals;
     }
 
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return crudRepository.getBetweenHalfOpen(userId, startDateTime, endDateTime);
-/*        return crudRepository.findByUserIdAndDateTimeGreaterThanEqualAndDateTimeLessThanOrderByDateTimeDesc(
-                userId, startDateTime, endDateTime)
-                .orElse(Collections.emptyList());
-*/
+        var meals = crudRepository.getBetweenHalfOpen(userId, startDateTime, endDateTime);
+        return meals == null ? Collections.emptyList() : meals;
     }
 }
