@@ -3,11 +3,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
+<jsp:include page="fragments/headTag.jsp"/>
 <head>
     <title><spring:message code="meal.title"/></title>
     <link rel="stylesheet" href="../resources/css/style.css">
 </head>
 <body>
+<jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
     <h3><a href="index.html"><spring:message code="app.home"/></a></h3>
     <hr>
@@ -31,5 +33,6 @@
         <button onclick="window.history.back()" type="button"><spring:message code="app.cancel"/></button>
     </form>
 </section>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
