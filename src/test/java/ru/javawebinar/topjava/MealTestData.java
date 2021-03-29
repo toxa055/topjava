@@ -33,6 +33,11 @@ public class MealTestData {
     }
 
     public static Meal getUpdated() {
-        return new Meal(MEAL1_ID, meal1.getDateTime().plus(2, ChronoUnit.MINUTES), "Обновленный завтрак", 200);
+        Meal updated = new Meal(meal1);
+        updated.setDateTime(meal1.getDateTime().plus(2, ChronoUnit.MINUTES));
+        updated.setDescription("Обновленный завтрак");
+        updated.setCalories(2000);
+        return updated;
+//        return new Meal(MEAL1_ID, meal1.getDateTime().plus(2, ChronoUnit.MINUTES), "Обновленный завтрак", 200);
     }
 }
