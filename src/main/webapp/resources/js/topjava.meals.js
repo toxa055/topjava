@@ -1,4 +1,4 @@
-const mealAjaxUrl = "meals/";
+const mealAjaxUrl = "auth-user/meals/";
 
 // $(document).ready(function () {
 $(function () {
