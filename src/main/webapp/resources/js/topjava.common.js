@@ -1,5 +1,13 @@
 let form;
 
+let ctx;
+
+function setCtx(url) {
+    ctx = {
+        ajaxUrl: url
+    };
+}
+
 function makeEditable(datatableApi) {
     ctx.datatableApi = datatableApi;
 

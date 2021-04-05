@@ -31,6 +31,10 @@ public class DateTimeUtil {
         return ldt == null ? "" : ldt.format(DATE_TIME_FORMATTER);
     }
 
+    public static LocalDateTime parseLocalDateTime(String str) {
+        return StringUtils.hasLength(str) ? LocalDateTime.parse(str) : null;
+    }
+
     public static @Nullable
     LocalDate parseLocalDate(@Nullable String str) {
         return StringUtils.hasLength(str) ? LocalDate.parse(str) : null;

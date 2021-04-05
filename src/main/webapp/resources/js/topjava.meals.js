@@ -1,27 +1,21 @@
-const userAjaxUrl = "admin/users/";
+const mealAjaxUrl = "meals/";
 
 // $(document).ready(function () {
 $(function () {
-    setCtx(userAjaxUrl);
+    setCtx(mealAjaxUrl);
     makeEditable(
         $("#datatable").DataTable({
             "paging": false,
             "info": true,
             "columns": [
                 {
-                    "data": "name"
+                    "data": "dateTime"
                 },
                 {
-                    "data": "email"
+                    "data": "description"
                 },
                 {
-                    "data": "roles"
-                },
-                {
-                    "data": "enabled"
-                },
-                {
-                    "data": "registered"
+                    "data": "calories"
                 },
                 {
                     "defaultContent": "Edit",
@@ -35,9 +29,10 @@ $(function () {
             "order": [
                 [
                     0,
-                    "asc"
+                    "desc"
                 ]
             ]
         })
     );
 });
+
