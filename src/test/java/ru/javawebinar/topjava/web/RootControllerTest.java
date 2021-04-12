@@ -10,6 +10,8 @@ import static ru.javawebinar.topjava.UserTestData.admin;
 
 class RootControllerTest extends AbstractControllerTest {
 
+    private static final String LOGIN_URL = "http://localhost/login";
+
     @Test
     void getUsers() throws Exception {
         perform(get("/users")
@@ -26,7 +28,7 @@ class RootControllerTest extends AbstractControllerTest {
         perform(get("/users"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost/login"));
+                .andExpect(redirectedUrl(LOGIN_URL));
     }
 
     @Test
@@ -44,6 +46,6 @@ class RootControllerTest extends AbstractControllerTest {
         perform(get("/meals"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost/login"));
+                .andExpect(redirectedUrl(LOGIN_URL));
     }
 }
